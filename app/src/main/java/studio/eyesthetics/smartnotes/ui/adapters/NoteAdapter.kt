@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_note.*
@@ -14,12 +15,29 @@ import studio.eyesthetics.smartnotes.models.NoteItem
  * Created by BashkatovSM on 20.09.2019
  */
 class NoteAdapter(val listener: (NoteItem) -> Unit) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
-    var items: MutableList<NoteItem> = mutableListOf()
+    var items: List<NoteItem> = listOf()
 
-    init {
+    /*init {
         for(i in 0..20) {
             items.add(i,NoteItem("$i", "Title $i", "Image"))
         }
+    }*/
+
+    fun updateData(data : List<NoteItem>) {
+        val diffCallback = object : DiffUtil.Callback() {
+            override fun areItemsTheSame(oldPos: Int, newPos: Int): Boolean = items[oldPos].id == data[newPos].id
+
+            override fun areContentsTheSame(oldPos: Int, newPos: Int): Boolean = items[oldPos].hashCode() == data[newPos].hashCode()
+
+            override fun getOldListSize(): Int = items.size
+
+            override fun getNewListSize(): Int = data.size
+
+        }
+
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        items = data
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {

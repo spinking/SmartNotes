@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //initToolbar()
         initViews()
         initViewModel()
     }
@@ -35,12 +34,6 @@ class MainActivity : AppCompatActivity() {
          }
         return super.onCreateOptionsMenu(menu)
     }
-
-    /*private fun initToolbar() {
-        setSupportActionBar(toolbar)
-    }*/
-
-
 
     private fun initViews() {
         noteAdapter = NoteAdapter {
