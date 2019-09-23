@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import studio.eyesthetics.smartnotes.R
@@ -20,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         //initToolbar()
         initViews()
-        //initViewModel()
+        initViewModel()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -51,7 +53,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    /*private fun initViewModel() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }*/
+    private fun initViewModel() {
+        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel.getNoteData().observe(this, Observer { noteAdapter.updateData(it) })
+    }
 }
