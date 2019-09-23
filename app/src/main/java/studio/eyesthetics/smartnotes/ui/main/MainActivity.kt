@@ -3,6 +3,7 @@ package studio.eyesthetics.smartnotes.ui.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import studio.eyesthetics.smartnotes.R
@@ -20,6 +21,17 @@ class MainActivity : AppCompatActivity() {
         //initToolbar()
         initViews()
         //initViewModel()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_add_button, menu)
+        val addButton = menu?.findItem(R.id.action_add)
+        addButton?.setOnMenuItemClickListener {
+            val intent = Intent(this, NoteActivity::class.java)
+            startActivity(intent)
+            true
+         }
+        return super.onCreateOptionsMenu(menu)
     }
 
     /*private fun initToolbar() {
