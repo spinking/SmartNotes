@@ -13,7 +13,7 @@ import studio.eyesthetics.smartnotes.models.NoteItem
 /**
  * Created by BashkatovSM on 20.09.2019
  */
-class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
+class NoteAdapter(val listener: (NoteItem) -> Unit) : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
     var items: MutableList<NoteItem> = mutableListOf()
 
     init {
@@ -30,7 +30,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
     override fun getItemCount(): Int = items.size
 
-    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) = holder.bind(items[position])
+    override fun onBindViewHolder(holder: NoteViewHolder, position: Int) = holder.bind(items[position], listener)
 
     /*fun updateData(data : List<NoteItem>) {
         val diffCallback = object : DiffUtil.Callback() {
@@ -52,7 +52,7 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
         override val containerView: View?
             get() = itemView
 
-        fun bind(note: NoteItem) {
+        fun bind(note: NoteItem, listener: (NoteItem) -> Unit) {
             /*if(user.avatar != null) {
                 Glide.with(itemView)
                     .load(user.avatar)
@@ -66,6 +66,9 @@ class NoteAdapter : RecyclerView.Adapter<NoteAdapter.NoteViewHolder>() {
 
             iv_notes_image.setBackgroundColor(Color.GREEN)
 
+            itemView.setOnClickListener {
+                listener.invoke(note)
+            }
         }
 
     }

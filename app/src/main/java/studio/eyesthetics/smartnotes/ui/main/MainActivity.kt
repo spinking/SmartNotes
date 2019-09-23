@@ -1,11 +1,13 @@
 package studio.eyesthetics.smartnotes.ui.main
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import studio.eyesthetics.smartnotes.R
 import studio.eyesthetics.smartnotes.ui.adapters.NoteAdapter
+import studio.eyesthetics.smartnotes.ui.note.NoteActivity
 import studio.eyesthetics.smartnotes.viewmodels.MainViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -24,8 +26,13 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
     }*/
 
+
+
     private fun initViews() {
-        noteAdapter = NoteAdapter()
+        noteAdapter = NoteAdapter {
+            val intent = Intent(this, NoteActivity::class.java)
+            startActivity(intent)
+        }
         with(rv_note_list) {
             adapter = noteAdapter
             layoutManager = LinearLayoutManager(this@MainActivity)
