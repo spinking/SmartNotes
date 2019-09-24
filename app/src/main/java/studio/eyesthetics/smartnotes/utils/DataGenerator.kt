@@ -1,6 +1,7 @@
 package studio.eyesthetics.smartnotes.utils
 
 import studio.eyesthetics.smartnotes.models.Note
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -20,7 +21,7 @@ object DataGenerator {
                     "Title #$i",
                     "Description for note number $i",
                     "",
-                    Random.nextInt(0, 3),
+                    "none",
                     "i"
                 )
             )

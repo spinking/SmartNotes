@@ -15,10 +15,10 @@ object CacheManager {
         return notes
     }
 
-    fun nextNoteId(): String {
+    /*fun nextNoteId(): String {
         val lastId = notes.value!!.last().id.toInt() + 1
         return lastId.toString()
-    }
+    }*/
 
     fun insertNote(note: Note) {
         val copy = notes.value!!.toMutableList()

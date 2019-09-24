@@ -7,6 +7,6 @@ import java.util.*
  */
 data class NoteItem (
     val id: String,
-    val title: String,
+    val title: String?,
     val image: String?
 )

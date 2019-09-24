@@ -8,6 +8,7 @@ import studio.eyesthetics.smartnotes.models.Note
  * Created by BashkatovSM on 23.09.2019
  */
 object NoteRepository {
+
     private val notes = CacheManager.loadNotes()
 
     fun loadNotes(): MutableLiveData<List<Note>> {

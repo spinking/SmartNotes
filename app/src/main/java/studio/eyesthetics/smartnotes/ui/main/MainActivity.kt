@@ -3,6 +3,7 @@ package studio.eyesthetics.smartnotes.ui.main
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -38,6 +39,8 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         noteAdapter = NoteAdapter {
             val intent = Intent(this, NoteActivity::class.java)
+            Log.d("M_MainActivity", "${it.id}")
+            intent.putExtra("id", it.id)
             startActivity(intent)
         }
         with(rv_note_list) {
