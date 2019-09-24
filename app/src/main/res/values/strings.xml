@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SmartNotes</string>
     <string name="menu_add_button_title">Add</string>
+    <string name="menu_edit_button_title">Edit</string>
 </resources>

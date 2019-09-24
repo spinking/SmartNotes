@@ -21,4 +21,13 @@ import java.util.*
             image
         )
     }
+
+    fun toMap() : Map<String, String?> = mapOf(
+        "title" to title,
+        "description" to description,
+        "image" to image,
+        "importance" to importance,
+        "coordinates" to coordinates
+    )
+
  }
