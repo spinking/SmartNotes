@@ -2,7 +2,7 @@ package studio.eyesthetics.smartnotes.ui.note
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.util.Log
 import android.view.Menu
 import android.widget.EditText
 import android.widget.TextView
@@ -31,24 +31,28 @@ class NoteActivity : AppCompatActivity() {
         val intent = intent
         itemId = intent.getStringExtra("id")
 
-        initViews()
+        initViews(savedInstanceState)
         initViewModel()
     }
 
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean(IS_EDIT_MODE, isEditMode)
     }
 
-    private fun initViews() {
+
+    private fun initViews(savedInstanceState: Bundle?) {
         viewFields = mapOf(
             "title" to tv_notes_title,
             "description" to tv_notes_description
         )
+        isEditMode = savedInstanceState?.getBoolean(IS_EDIT_MODE, false) ?: false
+        showCurrentMode(isEditMode)
     }
 
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
-        viewModel.getNotesData().observe(this, Observer { updateUI(it[itemId.toInt()]) })
+        viewModel.getNoteData().observe(this, Observer { updateUI(it) })
     }
 
     private fun updateUI(note: Note) {
@@ -58,18 +62,15 @@ class NoteActivity : AppCompatActivity() {
                 v.text = it[k].toString()
             }
         }
-        /*note.also {
-            tv_notes_title.text = it.title
-            tv_notes_description.text = it.description
-        }*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_edit, menu)
         val editButton = menu?.findItem(R.id.action_edit)
         editButton?.setOnMenuItemClickListener {
-           isEditMode = !isEditMode
-           showCurrentMode(isEditMode)
+            if(isEditMode) saveNoteInfo()
+            isEditMode = !isEditMode
+            showCurrentMode(isEditMode)
             true
         }
         return super.onCreateOptionsMenu(menu)
@@ -84,5 +85,18 @@ class NoteActivity : AppCompatActivity() {
             v.isEnabled = isEdit
             v.background.alpha = if(isEdit) 255 else 0
         }
+    }
+
+    private fun saveNoteInfo() {
+        Note(
+            id = "0",
+            title = tv_notes_title.text.toString(),
+            description = tv_notes_description.text.toString(),
+            image = "",
+            importance = "none",
+            coordinates = ""
+        ).apply {
+            viewModel.saveNoteData(this)
+         }
     }
 }

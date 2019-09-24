@@ -14,15 +14,27 @@ import java.util.*
  */
 class NoteViewModel: ViewModel() {
     private val noteRepository = NoteRepository
+    private val singleNoteData = MutableLiveData<Note>()
     private val notes: LiveData<List<Note>> = Transformations.map(noteRepository.loadNotes()) { notes ->
         return@map notes.map { it }
     }
 
-    fun getNoteData(id: String) : Note {
+    /*init {
+        singleNoteData.value = noteRepository.loadNotes().value!!.filter { id == it.id }.first()
+    }*/
+
+    /*fun getNoteData(id: String) : Note {
         return noteRepository.loadNotes().value!!.filter { id == it.id }.first()
-    }
+    }*/
 
     fun getNotesData() : LiveData<List<Note>> {
         return notes
+    }
+
+    fun getNoteData(): LiveData<Note> = singleNoteData
+
+    fun saveNoteData(note: Note) {
+        noteRepository.update(note)
+        singleNoteData.value = note
     }
 }
