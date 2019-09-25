@@ -23,12 +23,8 @@ object NoteRepository {
         notes.value = copy
     }
 
-    fun load(id: String) {
+    /*fun load(id: String) {
         notes.value!!.filter { it.id == id }
-    }
-
-    /*fun getNote(): Note? {
-
     }*/
 
 }

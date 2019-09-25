@@ -1,7 +1,5 @@
 package studio.eyesthetics.smartnotes.models
 
-import java.util.*
-
 /**
  * Created by BashkatovSM on 20.09.2019
  */

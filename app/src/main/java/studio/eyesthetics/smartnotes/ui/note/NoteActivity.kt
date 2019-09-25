@@ -2,7 +2,6 @@ package studio.eyesthetics.smartnotes.ui.note
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.widget.EditText
 import android.widget.TextView
@@ -46,6 +45,7 @@ class NoteActivity : AppCompatActivity() {
             "title" to tv_notes_title,
             "description" to tv_notes_description
         )
+
         isEditMode = savedInstanceState?.getBoolean(IS_EDIT_MODE, false) ?: false
         showCurrentMode(isEditMode)
     }
@@ -53,6 +53,7 @@ class NoteActivity : AppCompatActivity() {
     private fun initViewModel() {
         viewModel = ViewModelProviders.of(this).get(NoteViewModel::class.java)
         viewModel.getNoteData().observe(this, Observer { updateUI(it) })
+        viewModel.initNoteData(itemId)
     }
 
     private fun updateUI(note: Note) {
@@ -89,7 +90,7 @@ class NoteActivity : AppCompatActivity() {
 
     private fun saveNoteInfo() {
         Note(
-            id = "0",
+            id = itemId,
             title = tv_notes_title.text.toString(),
             description = tv_notes_description.text.toString(),
             image = "",
