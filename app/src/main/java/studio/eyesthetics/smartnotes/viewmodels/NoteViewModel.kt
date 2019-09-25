@@ -1,5 +1,6 @@
 package studio.eyesthetics.smartnotes.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
@@ -12,15 +13,20 @@ import studio.eyesthetics.smartnotes.repositories.NoteRepository
  */
 class NoteViewModel: ViewModel() {
     private val noteRepository = NoteRepository
+    private val size = noteRepository.loadNotes().value!!.size
     private val singleNoteData = MutableLiveData<Note>(Note("","","","","",""))
     private val notes: LiveData<List<Note>> = Transformations.map(noteRepository.loadNotes()) { notes ->
         return@map notes.map { it }
     }
 
     fun initNoteData(id: String) {
-        val note = noteRepository.loadNotes().value!!.filter { id == it.id }.first()
-        singleNoteData.value!!.title = note.title
-        singleNoteData.value!!.description = note.description
+        Log.d("M_NoteViewModel", "${id.toInt()}")
+        if(id.toInt() < size) {
+            val note = noteRepository.loadNotes().value!!.filter { id == it.id }.first()
+            singleNoteData.value!!.title = note.title
+            singleNoteData.value!!.description = note.description
+        }
+
     }
 
     fun getNotesData() : LiveData<List<Note>> {

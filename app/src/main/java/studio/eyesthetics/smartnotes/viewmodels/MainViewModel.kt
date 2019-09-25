@@ -20,4 +20,8 @@ class MainViewModel: ViewModel() {
     fun getNoteData() : LiveData<List<NoteItem>> {
         return notes
     }
+
+    fun getNewId() = (notes.value!!.size + 1).toString()
+
+
 }

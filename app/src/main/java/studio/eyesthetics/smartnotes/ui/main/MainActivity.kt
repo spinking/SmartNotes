@@ -30,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         val addButton = menu?.findItem(R.id.action_add)
         addButton?.setOnMenuItemClickListener {
             val intent = Intent(this, NoteActivity::class.java)
+            intent.putExtra("id", viewModel.getNewId())
             startActivity(intent)
             true
          }
